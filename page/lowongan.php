@@ -20,7 +20,7 @@ $result1 = mysqli_fetch_assoc($sql);
 if ($result1['Id_jabatan'] == "1") :
 
     $jumlahDataPerHalaman = 10;
-    $jumData = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM lowongan"));
+    $jumData = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM lowongan WHERE deleted=0"));
     $jumlahHalaman = ceil($jumData / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET['page'])) ? $_GET['page'] : 1;
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
@@ -214,45 +214,42 @@ if ($result1['Id_jabatan'] == "1") :
                         </tbody>
                     </table>
                 </div>
-                <?php $allData = mysqli_query($conn, "SELECT * FROM lowongan"); ?>
-                <?php if ((mysqli_num_rows($allData) != 0) && (mysqli_num_rows($allData) > 10)) : ?>
-                    <div class="row mt-2 mb-5" style="position: absolute; right: 150px;">
-                        <nav aria-label="...">
-                            <ul class="pagination">
+                <div class="col mt-2" style="position: absolute; right: 150px">
+                    <nav aria-label="...">
+                        <ul class="pagination">
 
-                                <?php if ($halamanAktif > 1) : ?>
-                                    <li class="page-item">
-                                        <span class="page-link"><a href="?page=<?= $halamanAktif - 1; ?>" style="text-decoration: none;">Previous</a></span>
+                            <?php if ($halamanAktif > 1) : ?>
+                                <li class="page-item">
+                                    <span class="page-link"><a href="?page=<?= $halamanAktif - 1; ?>" style="text-decoration: none;">Previous</a></span>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
+                                <?php if ($i == $halamanAktif) : ?>
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link"><a href="?page=<?= $i; ?>" class="text-white" style="text-decoration: none;"><?= $i; ?></a></span>
                                     </li>
                                 <?php else : ?>
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Previous</span>
-                                    </li>
+                                    <li class="page-item"><a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
                                 <?php endif; ?>
+                            <?php endfor; ?>
 
-                                <?php for ($i = 1; $i <= $jumlahHalaman; $i++) : ?>
-                                    <?php if ($i == $halamanAktif) : ?>
-                                        <li class="page-item active" aria-current="page">
-                                            <span class="page-link"><a href="?page=<?= $i; ?>" class="text-white" style="text-decoration: none;"><?= $i; ?></a></span>
-                                        </li>
-                                    <?php else : ?>
-                                        <li class="page-item"><a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a></li>
-                                    <?php endif; ?>
-                                <?php endfor; ?>
-
-                                <?php if ($halamanAktif < $jumlahHalaman) : ?>
-                                    <li class="page-item">
-                                        <span class="page-link"><a href="?page=<?= $halamanAktif + 1; ?>" style="text-decoration: none;">Next</a></span>
-                                    </li>
-                                <?php else : ?>
-                                    <li class="page-item disabled">
-                                        <span class="page-link">Next</span>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
-                        </nav>
-                    </div>
-                <?php endif; ?>
+                            <?php if ($halamanAktif < $jumlahHalaman) : ?>
+                                <li class="page-item">
+                                    <span class="page-link"><a href="?page=<?= $halamanAktif + 1; ?>" style="text-decoration: none;">Next</a></span>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link">Next</span>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                </div>
             </div>
 
             <?php if (mysqli_num_rows($data) != 0) : ?>

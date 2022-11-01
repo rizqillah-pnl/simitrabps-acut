@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ((strtotime($tglMulai) + 432000) <= strtotime($tglAkhir)) {
             $gambar = upload('assets');
 
-            $insertLowongan = mysqli_query($conn, "INSERT INTO lowongan (jenis_lowongan, tanggal_mulai, tanggal_akhir, persyaratan, deskripsi, gambar) VALUES ('$jenis', '$tglMulai', '$tglAkhir', '$syarat', '$deskripsi', '$gambar')");
+            $insertLowongan = mysqli_query($conn, "INSERT INTO lowongan (jenis_lowongan, tanggal_mulai, tanggal_akhir, persyaratan, deskripsi, gambar, deleted) VALUES ('$jenis', '$tglMulai', '$tglAkhir', '$syarat', '$deskripsi', '$gambar', '0')");
 
             if ($insertLowongan) {
                 $_SESSION['pesan'] = 200;
