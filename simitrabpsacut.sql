@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Nov 2022 pada 11.13
+-- Waktu pembuatan: 01 Nov 2022 pada 13.51
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.29
 
@@ -44,8 +44,8 @@ CREATE TABLE `auth` (
 
 INSERT INTO `auth` (`Kode_petugas`, `Username`, `Email`, `Password`, `Old_password`, `Last_login`, `Created_at`, `Updated_at`) VALUES
 (1, 'ila', 'rahmaini@gmail.com', 'aafe26449a364e5d6b5db7dc565a9b6a', 'aafe26449a364e5d6b5db7dc565a9b6a', '2022-08-30 08:11:36', '2022-07-08 07:55:50', '2022-08-25 05:05:28'),
-(23, 'admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', NULL, '2022-11-01 17:12:30', '2022-07-19 07:41:01', '2022-08-23 13:58:11'),
-(61, 'firza', 'firza@gmail.com', '202cb962ac59075b964b07152d234b70', NULL, '2022-11-01 17:12:25', '2022-08-30 09:07:31', '2022-08-30 09:09:51'),
+(23, 'admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', NULL, '2022-11-01 19:50:16', '2022-07-19 07:41:01', '2022-08-23 13:58:11'),
+(61, 'firza', 'firza@gmail.com', '202cb962ac59075b964b07152d234b70', NULL, '2022-11-01 19:50:05', '2022-08-30 09:07:31', '2022-08-30 09:09:51'),
 (63, 'rizka', 'rizka@gmail.com', '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:48:33', '2022-08-30 09:19:44', '2022-08-30 09:22:38'),
 (64, 'mala', 'mala@gmail.com', '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:49:00', '2022-08-30 09:27:43', '2022-08-30 09:29:52'),
 (65, 'nisa', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:34:13', '2022-08-30 09:32:55', NULL),
@@ -53,7 +53,8 @@ INSERT INTO `auth` (`Kode_petugas`, `Username`, `Email`, `Password`, `Old_passwo
 (67, 'yuma', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:36:54', '2022-08-30 09:35:55', NULL),
 (68, 'indah', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:42:23', '2022-08-30 09:39:09', NULL),
 (69, 'karisma', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-08-30 09:44:40', '2022-08-30 09:43:37', NULL),
-(70, 'angga', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-10-31 10:22:48', '2022-10-31 10:08:58', NULL);
+(70, 'angga', NULL, '202cb962ac59075b964b07152d234b70', NULL, '2022-10-31 10:22:48', '2022-10-31 10:08:58', NULL),
+(71, 'tessadas', 'asdasad@sdad.cg', '202cb962ac59075b964b07152d234b70', NULL, '2022-11-01 18:37:35', '2022-11-01 18:35:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,7 +141,8 @@ INSERT INTO `petugas` (`Kode_petugas`, `NIK`, `Nama`, `Foto`, `Jabatan`, `Tempat
 (67, NULL, 'yuma', NULL, 2, NULL, NULL, NULL, NULL, 'L'),
 (68, NULL, 'indah', NULL, 2, NULL, NULL, NULL, NULL, 'L'),
 (69, NULL, 'karisma', NULL, 2, NULL, NULL, NULL, NULL, 'L'),
-(70, NULL, 'angga', NULL, 2, NULL, NULL, NULL, NULL, 'L');
+(70, NULL, 'angga', NULL, 2, NULL, NULL, NULL, NULL, 'L'),
+(71, '12141241', 'adad', NULL, 2, NULL, NULL, NULL, NULL, 'L');
 
 -- --------------------------------------------------------
 
@@ -259,7 +261,7 @@ ALTER TABLE `tb_lowongan_user`
 -- AUTO_INCREMENT untuk tabel `auth`
 --
 ALTER TABLE `auth`
-  MODIFY `Kode_petugas` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `Kode_petugas` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT untuk tabel `jabatan`

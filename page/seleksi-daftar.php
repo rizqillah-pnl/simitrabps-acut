@@ -259,8 +259,13 @@ if ($result1['Id_jabatan'] == "1") :
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="text-center">
-                                                        <a href="../public/img/user/<?= $row['Foto']; ?>" target="_blank"><img src="../public/img/user/<?= $row['Foto']; ?>" alt="<?= $row['Nama']; ?>" width="200" height="200" class="rounded-circle">
-                                                        </a>
+                                                        <?php if ($row['Foto'] != "") : ?>
+                                                            <a href="../public/img/user/<?= $row['Foto']; ?>" target="_blank"><img src="../public/img/user/<?= $row['Foto']; ?>" alt="<?= $row['Nama']; ?>" width="200" height="200" class="rounded-circle">
+                                                            </a>
+                                                        <?php else : ?>
+                                                            <a href="../public/img/user/1.jpg" target="_blank"><img src="../public/img/user/1.jpg" alt="<?= $row['Nama']; ?>" width="200" height="200" class="rounded-circle">
+                                                            </a>
+                                                        <?php endif; ?>
                                                     </div>
                                                     <div class="row mt-3">
                                                         <div class="col-5">Nama</div>

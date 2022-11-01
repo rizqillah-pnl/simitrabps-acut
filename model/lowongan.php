@@ -16,7 +16,7 @@ if (isset($_POST['daftarLowongan'])) {
     $idLowongan = $_POST['idLowongan'];
     $kec = $_POST['kecamatan'];
 
-    $cari = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id='$idLowongan' AND id_petugas='$kode'");
+    $cari = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id_lowongan='$idLowongan' AND id_petugas='$kode'");
     if (mysqli_num_rows($cari) == 0) {
 
         date_default_timezone_set('Asia/Jakarta');

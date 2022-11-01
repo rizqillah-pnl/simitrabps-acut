@@ -265,8 +265,7 @@ $result1 = mysqli_fetch_assoc($data);
                                                                         <label for="Kabupaten" class="col-md-4 ">Kabupaten
                                                                         </label>
                                                                         <div class="col sm-8">
-                                                                            <span class="font-weight-bold d-flex">
-                                                                                <span class="d-none d-md-flex">Aceh Utara</span>
+                                                                            <input type="text" value="Aceh Utara" disabled class="form-control">
                                                                             </span>
                                                                         </div>
                                                                     </div>

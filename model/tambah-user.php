@@ -39,7 +39,7 @@ if (isset($_POST['tambah-user'])) {
         $kode_petugas = $data['Kode_petugas'];
 
 
-        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, Nama, Jabatan) VALUES ('$kode_petugas', '$nama', '$jabatan')");
+        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, Nama, Foto, Jabatan) VALUES ('$kode_petugas', '$nama', '1.jpg', '$jabatan')");
 
         if ($query2 && $query3) {
             $_SESSION['pesan'] = "berhasil";
@@ -86,7 +86,7 @@ if (isset($_POST['register'])) {
         $kode_petugas = $data['Kode_petugas'];
 
 
-        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, NIK, Nama, Jabatan) VALUES ('$kode_petugas', '$nik', '$nama', '$jabatan')");
+        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, NIK, Nama, Foto, Jabatan) VALUES ('$kode_petugas', '$nik', '$nama', '1.jpg', '$jabatan')");
 
         if ($query2 && $query3) {
             $_SESSION['username'] = $username;
