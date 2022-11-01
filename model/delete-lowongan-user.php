@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (isset($_POST['submit1'])) {
             $id =  $_POST['id'];
             $url = $_POST['url'];
-            $UPDATELowonganUser = mysqli_query($conn, "UPDATE tb_lowongan_user SET L_action='LULUS' WHERE id='$id'");
+            $UPDATELowonganUser = mysqli_query($conn, "UPDATE tb_lowongan_user SET L_action='1' WHERE id='$id'");
 
             if ($deleteLowonganUser) {
                 $_SESSION['pesan'] = 205;
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } elseif (isset($_POST['submit2'])) {
             $id =  $_POST['id'];
             $url = $_POST['url'];
-            $UPDATELowonganUser = mysqli_query($conn, "UPDATE tb_lowongan_user SET L_action='TIDAK LULUS' WHERE id='$id'");
+            $UPDATELowonganUser = mysqli_query($conn, "UPDATE tb_lowongan_user SET L_action='2' WHERE id='$id'");
 
             if ($deleteLowonganUser) {
                 $_SESSION['pesan'] = 205;

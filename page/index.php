@@ -44,41 +44,41 @@ $result1 = mysqli_fetch_assoc($data);
     } ?>
 
     <script>
-    let login = "<?= $login ?>";
+        let login = "<?= $login ?>";
 
-    console.log(login);
+        console.log(login);
 
-    if (login != "") {
-        swal("Selamat Datang", "@" + login, "success");
-    }
+        if (login != "") {
+            swal("Selamat Datang", "@" + login, "success");
+        }
     </script>
     <?php if (isset($_SESSION['pesan'])) :
         $pesan = $_SESSION['pesan'];
     ?>
-    <?php if ($pesan == "berhasil") : ?>
-    <script>
-    swal("Berhasil!", "Berhasil Mendaftar Sebagai Petugas!", "success");
-    </script>
+        <?php if ($pesan == "berhasil") : ?>
+            <script>
+                swal("Berhasil!", "Berhasil Mendaftar Sebagai Petugas!", "success");
+            </script>
 
-    <?php elseif ($pesan == "gagal") : ?>
-    <script>
-    swal("Gagal!", "Gagal Mendaftar Sebagai Petugas!", "warning");
-    </script>
+        <?php elseif ($pesan == "gagal") : ?>
+            <script>
+                swal("Gagal!", "Gagal Mendaftar Sebagai Petugas!", "warning");
+            </script>
 
-    <?php elseif ($pesan == "already") : ?>
-    <script>
-    swal("Gagal!", "Sudah Mendaftar Sebagai Petugas!", "warning");
-    </script>
-    <?php elseif ($pesan == 205) : ?>
-    <script>
-    swal("Berhasil!", "Lowongan Berhasil Dibatalkan!", "success");
-    </script>
+        <?php elseif ($pesan == "already") : ?>
+            <script>
+                swal("Gagal!", "Sudah Mendaftar Sebagai Petugas!", "warning");
+            </script>
+        <?php elseif ($pesan == 205) : ?>
+            <script>
+                swal("Berhasil!", "Lowongan Berhasil Dibatalkan!", "success");
+            </script>
 
-    <?php elseif ($pesan == 305) : ?>
-    <script>
-    swal("Gagal!", "Lowongan Gagal Dibatalkan!", "warning");
-    </script>
-    <?php endif; ?>
+        <?php elseif ($pesan == 305) : ?>
+            <script>
+                swal("Gagal!", "Lowongan Gagal Dibatalkan!", "warning");
+            </script>
+        <?php endif; ?>
     <?php endif; ?>
 
 
@@ -97,39 +97,25 @@ $result1 = mysqli_fetch_assoc($data);
             <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
-                    <li class="sidebar-item" style="background-color: #1a9bfc; border-radius: 9px"> <a
-                            class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php"
-                            aria-expanded="false"><i class="mdi mdi-view-dashboard text-white"></i><span
-                                class="hide-menu text-white">Dashboard</span></a></li>
+                    <li class="sidebar-item" style="background-color: #1a9bfc; border-radius: 9px"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.php" aria-expanded="false"><i class="mdi mdi-view-dashboard text-white"></i><span class="hide-menu text-white">Dashboard</span></a></li>
 
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="profile.php" aria-expanded="false"><i class="fa-solid fa-circle-user"></i><span
-                                class="hide-menu">Profile</span></a></li>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.php" aria-expanded="false"><i class="fa-solid fa-circle-user"></i><span class="hide-menu">Profile</span></a></li>
 
                     <?php if ($result1['Id_jabatan'] == 2) :  ?>
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="lowongan-user.php" aria-expanded="false"><i class="mdi mdi-worker"></i><span
-                                class="hide-menu">Survei Terdaftar</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan-user.php" aria-expanded="false"><i class="mdi mdi-worker"></i><span class="hide-menu">Survei Terdaftar</span></a></li>
                     <?php endif; ?>
 
                     <?php if ($result1['Id_jabatan'] == 1) {  ?>
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="lowongan.php" aria-expanded="false"><i class="mdi mdi-file-document-box"></i><span
-                                class="hide-menu">Daftar Survei</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="lowongan.php" aria-expanded="false"><i class="mdi mdi-file-document-box"></i><span class="hide-menu">Daftar Survei</span></a></li>
 
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="seleksi-daftar.php" aria-expanded="false"><i class='far fa-handshake'></i><span
-                                class="hide-menu ">Seleksi
-                                Pendaftar</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="seleksi-daftar.php" aria-expanded="false"><i class='far fa-handshake'></i><span class="hide-menu ">Seleksi
+                                    Pendaftar</span></a></li>
 
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="user.php" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span
-                                class="hide-menu">Account</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user.php" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Account</span></a></li>
                     <?php } ?>
 
                     <li class="sidebar-item logout-item" style="position: fixed; bottom: 0; width: 220px">
-                        <button class="dropdown-item border-0 btn btn-link" data-bs-toggle="modal"
-                            data-bs-target="#Logout">
+                        <button class="dropdown-item border-0 btn btn-link" data-bs-toggle="modal" data-bs-target="#Logout">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i><span class="hide-menu">
                                 Logout</span>
                         </button>
@@ -156,8 +142,7 @@ $result1 = mysqli_fetch_assoc($data);
                 <div class="col-6">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 d-flex align-items-center">
-                            <li class="breadcrumb-item"><a href="#" class="link"><i
-                                        class="mdi mdi-home-outline fs-4"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </nav>
@@ -196,144 +181,157 @@ $result1 = mysqli_fetch_assoc($data);
                                         <?php $dataLowongan = mysqli_query($conn, "SELECT * FROM lowongan"); ?>
 
                                         <?php foreach ($dataLowongan as $row) : ?>
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mx-auto">
-                                            <div class="card-group">
-                                                <div class="card" style="width: 18rem;">
-                                                    <img src="../public/img/assets/<?= $row['gambar']; ?>"
-                                                        class="card-img-top" alt="Image" height="230" width="200">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
-                                                        <p class="card-text"><?= $row['deskripsi']; ?></p>
-                                                        <?php
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mx-auto">
+                                                <div class="card-group">
+                                                    <div class="card" style="width: 18rem;">
+                                                        <img src="../public/img/assets/<?= $row['gambar']; ?>" class="card-img-top" alt="Image" height="230" width="200">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title"><?= $row['jenis_lowongan']; ?></h5>
+                                                            <p class="card-text"><?= $row['deskripsi']; ?></p>
+                                                            <?php
                                                             $tanggalMulai = date('d M', strtotime($row['tanggal_mulai']));
                                                             $tanggalAkhir = date('d M Y', strtotime($row['tanggal_akhir']));
 
                                                             ?>
 
-                                                        <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> -
-                                                            <?= $tanggalAkhir; ?></div>
+                                                            <div class="card-text mb-3">Tanggal : <?= $tanggalMulai; ?> -
+                                                                <?= $tanggalAkhir; ?></div>
 
-                                                        <?php $idLowongan = $row['id']; ?>
-                                                        <?php $idPetugas = $result1['Kode_petugas']; ?>
-                                                        <?php $cekDaftar = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id_lowongan='$idLowongan' AND id_petugas='$idPetugas'"); ?>
+                                                            <?php $idLowongan = $row['id']; ?>
+                                                            <?php $idPetugas = $result1['Kode_petugas']; ?>
+                                                            <?php $cekDaftar = mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id_lowongan='$idLowongan' AND id_petugas='$idPetugas'");
+                                                            $btnType = "btn-success ";
+                                                            ?>
 
-                                                        <?php if (mysqli_num_rows($cekDaftar) != 0) : ?>
-                                                        <?php $dataLw = mysqli_fetch_assoc($cekDaftar); ?>
-                                                        <?php $idTbLw = $dataLw['id']; ?>
-                                                        <?php endif; ?>
-                                                        <?php if (mysqli_num_rows($cekDaftar) == 1) {
-                                                                $disable = "text-white disabled";
-                                                                $text = "Sudah Mendaftar";
-                                                                $batal = "<button type='button' class='btn btn-danger mt-1 text-white text-center mb-2'
+                                                            <?php if (mysqli_num_rows($cekDaftar) != 0) : ?>
+                                                                <?php $dataLw = mysqli_fetch_assoc($cekDaftar); ?>
+                                                                <?php $idTbLw = $dataLw['id']; ?>
+
+                                                                <?php
+                                                                $dataLowong = mysqli_fetch_assoc($cekDaftar);
+                                                                $lulus = $dataLw['L_action'];
+
+                                                                if ($lulus == "1") {
+                                                                    $disable = "text-white disabled";
+                                                                    $text = "Anda Dinyatakan Lulus";
+                                                                    $batal = "";
+                                                                } else if ($lulus == "2") {
+                                                                    $disable = "text-white disabled";
+                                                                    $text = "Anda Dinyatakan Tidak Diterima!";
+                                                                    $batal = "";
+                                                                    $btnType = "btn-danger ";
+                                                                } else if (mysqli_num_rows($cekDaftar) == 1) {
+                                                                    $disable = "text-white disabled";
+                                                                    $text = "Sudah Mendaftar";
+                                                                    $batal = "<button type='button' class='btn btn-danger mt-1 text-white text-center mb-2'
                                                                     data-bs-toggle='modal' data-bs-target='#Delete$idTbLw'> <i
                                                                         class='mdi mdi-trash'></i> Batal Daftar</button>";
-                                                            } else {
+                                                                } ?>
+                                                            <?php else : ?>
+                                                                <?php
                                                                 $disable = "";
                                                                 $text = "Daftar";
                                                                 $batal = "";
-                                                            } ?>
+                                                                ?>
+                                                            <?php endif; ?>
 
-                                                        <?php if ($result1['Id_jabatan'] != "1") : ?>
-                                                        <div class="text-center text-xl-end text-lg-end">
-                                                            <?= $batal; ?>
+                                                            <div class="text-center text-xl-end text-lg-end">
+                                                                <?php if ($result1['Id_jabatan'] != "1") : ?>
+                                                                    <?= $batal; ?>
 
-                                                            <button class="btn btn-success text-white <?= $disable; ?>"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
+                                                                    <button class="btn <?= $btnType; ?> mt-2 text-white <?= $disable; ?>" data-bs-toggle="modal" data-bs-target="#modal<?= $row['id']; ?>"><?= $text; ?></button>
+                                                                <?php endif; ?>
+                                                                <button class="btn btn-primary text-white mt-2" data-bs-toggle="modal" data-bs-target="#detail<?= $row['id']; ?>">Detail</button>
+                                                            </div>
                                                         </div>
-                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="modal<?= $row['id']; ?>" tabindex="-1"
-                                            aria-labelledby="modalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel">
-                                                            <?= ucwords($row['jenis_lowongan']); ?></h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <form action="../model/lowongan.php" method="post">
-                                                        <input type="hidden" name="idLowongan"
-                                                            value="<?= $row['id']; ?>">
-                                                        <div class="modal-body">
-                                                            <div class="mb-3 row">
-                                                                <label for="Kabupaten" class="col-md-3 ">Kabupaten
-                                                                </label>
-                                                                <div class="col sm-8">
-                                                                    <span class="font-weight-bold d-flex">
-                                                                        <span class="d-none d-md-flex">: Aceh
-                                                                            Utara</span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">Kecamatan</div>
-                                                                <div class="col-md-8">
-                                                                    <select name="kecamatan" class="form-select"
-                                                                        id="select_boxx">
-                                                                        <option>Pilih Kecamatan</option>
-                                                                        <?php $kec = mysqli_query($conn, "SELECT * FROM tb_kecamatan"); ?>
-                                                                        <?php foreach ($kec as $row) : ?>
-                                                                        <option value="<?= $row['id']; ?>">
-                                                                            <?= $row['nama_kec']; ?></option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">Umur :</div>
-                                                                <div class="col-md-3">
-                                                                    <input type="number" class="form-control" name="umur" id="umur">
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">CV :</div>
-                                                                <div class="col-md-8">
-                                                                    <input type="file" class="form-control" name="cv" id="cv">
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">KTP :</div>
-                                                                <div class="col-md-8">
-                                                                    <input type="file" class="form-control" name="ktp" id="ktp">
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">Ijazah :</div>
-                                                                <div class="col-md-8">
-                                                                    <input type="file" class="form-control" name="ijazah" id="ijazah">
-                                                                </div>
-                                                            </div>
-                                                            <div class="mb-3 row">
-                                                                <div class="col-md-3">Surat Lamaran :</div>
-                                                                <div class="col-md-8">
-                                                                    <input type="file" class="form-control" name="ijazah" id="ijazah">
-                                                                </div>
-                                                            </div>
-                                                             <div class="mb-3 row">
-                                                                <div class="col-md-3">Surat Domisili :</div>
-                                                                <div class="col-md-8">
-                                                                    <input type="file" class="form-control" name="ijazah" id="ijazah">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" name="daftarLowongan"
-                                                                    class="btn btn-success text-white">Daftar</button>
-                                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal<?= $row['id']; ?>" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel">
+                                                                <?= ucwords($row['jenis_lowongan']); ?></h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                    </form>
+                                                        <form action="../model/lowongan.php" method="post" enctype="multipart/form-data">
+                                                            <input type="hidden" name="idLowongan" value="<?= $row['id']; ?>">
+                                                            <div class="modal-body">
+                                                                <div class="mb-3 row">
+                                                                    <label for="Kabupaten" class="col-md-3 ">Kabupaten
+                                                                    </label>
+                                                                    <div class="col sm-8">
+                                                                        <span class="font-weight-bold d-flex">
+                                                                            <span class="d-none d-md-flex">Aceh Utara</span>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">Kecamatan</div>
+                                                                    <div class="col-md-8">
+                                                                        <select name="kecamatan" class="form-select" id="select_boxx">
+                                                                            <!-- <option>Pilih Kecamatan</option> -->
+                                                                            <?php $kec = mysqli_query($conn, "SELECT * FROM tb_kecamatan"); ?>
+                                                                            <?php foreach ($kec as $row) : ?>
+                                                                                <option value="<?= $row['id']; ?>">
+                                                                                    <?= $row['nama_kec']; ?></option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">Umur</div>
+                                                                    <div class="col-md-3">
+                                                                        <input type="number" class="form-control" name="umur" id="umur" min="15" max="50" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">CV</div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" class="form-control" name="cv" id="cv" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">KTP</div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" class="form-control" name="ktp" id="ktp" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">Ijazah</div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" class="form-control" name="ijazah" id="ijazah" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">Surat Lamaran</div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" class="form-control" name="suratLamaran" id="suratLamaran" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3 row">
+                                                                    <div class="col-md-3">Surat Domisili</div>
+                                                                    <div class="col-md-8">
+                                                                        <input type="file" class="form-control" name="suratDomisili" id="suratDomisili" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-text mt-3">File : PDF, JPG, PNG, JPEG Max 2MB</div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                    <button type="submit" name="daftarLowongan" class="btn btn-success text-white">Daftar</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+
+
+
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
@@ -349,33 +347,67 @@ $result1 = mysqli_fetch_assoc($data);
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
+        <?php foreach ($dataLowongan as $row) : ?>
+            <!-- Modal Detail -->
+            <div class="modal fade" id="detail<?= $row['id']; ?>" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><?= $row['jenis_lowongan']; ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-5">Persyaratan</div>
+                                <div class="col-7"><?= $row['persyaratan']; ?></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-5">Deskripsi</div>
+                                <div class="col-7"><?= $row['deskripsi']; ?></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-5">Tanggal Mulai</div>
+                                <div class="col-7"><?= date('d F Y', strtotime($row['tanggal_mulai'])); ?></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-5">Tanggal Berakhir</div>
+                                <div class="col-7"><?= date('d F Y', strtotime($row['tanggal_akhir'])); ?></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
 
         <?php $kode = $result1['Kode_petugas']; ?>
         <?php $dataFull = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.tanggal_daftar, lowongan.jenis_lowongan FROM tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan WHERE id_petugas='$kode'"); ?>
         <?php foreach ($dataFull as $row) : ?>
-        <!-- Modal Delete -->
-        <div class="modal fade " id="Delete<?= $row['id']; ?>" tabindex="-1" aria-labelledby="DeleteLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="DeleteLabel">Hapus Pekerjaan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Anda yakin ingin Membatalkan Pekerjaan <strong><?= $row['jenis_lowongan']; ?></strong>?
-                    </div>
-                    <div class="modal-footer">
-                        <form action="../model/delete-lowongan-user.php" method="POST">
-                            <input type="hidden" name="url" value="index.php">
-                            <input type="hidden" name="id" value="<?= $row['id']; ?>">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" name="submit" class="btn btn-danger text-white">Hapus</button>
-                        </form>
+            <!-- Modal Delete -->
+            <div class="modal fade " id="Delete<?= $row['id']; ?>" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="DeleteLabel">Hapus Pekerjaan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Anda yakin ingin Membatalkan Pekerjaan <strong><?= $row['jenis_lowongan']; ?></strong>?
+                        </div>
+                        <div class="modal-footer">
+                            <form action="../model/delete-lowongan-user.php" method="POST">
+                                <input type="hidden" name="url" value="index.php">
+                                <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" name="submit" class="btn btn-danger text-white">Hapus</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <?php endforeach; ?>
 
 
