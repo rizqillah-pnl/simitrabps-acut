@@ -168,7 +168,7 @@ if ($result1['Id_jabatan'] == "1") :
                         <tbody>
                             <?php $pendaftar = mysqli_query($conn, "SELECT tb_lowongan_user.id, tb_lowongan_user.id_lowongan, 
                         tb_lowongan_user.id_petugas, tb_lowongan_user.tanggal_daftar, tb_lowongan_user.id_kec, tb_lowongan_user.umur, tb_lowongan_user.cv, tb_lowongan_user.ktp, tb_lowongan_user.ijazah, tb_lowongan_user.suratLamaran, tb_lowongan_user.suratDomisili, lowongan.jenis_lowongan,
-                        lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama, tb_kecamatan.nama_kec FROM 
+                        lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama, petugas.Foto, tb_kecamatan.nama_kec FROM 
                         tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN petugas ON 
                         petugas.kode_petugas=tb_lowongan_user.id_petugas LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec
                         WHERE L_action IS NULL ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
@@ -258,6 +258,10 @@ if ($result1['Id_jabatan'] == "1") :
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <div class="text-center">
+                                                        <a href="../public/img/user/<?= $row['Foto']; ?>" target="_blank"><img src="../public/img/user/<?= $row['Foto']; ?>" alt="<?= $row['Nama']; ?>" width="200" height="200" class="rounded-circle">
+                                                        </a>
+                                                    </div>
                                                     <div class="row mt-3">
                                                         <div class="col-5">Nama</div>
                                                         <div class="col-7"><?= $row['nama']; ?></div>

@@ -56,12 +56,14 @@ if (isset($_POST['tambah-user'])) {
 if (isset($_POST['register'])) {
     // $kode_petugas = htmlspecialchars($_POST['kode_petugas']);
     // $username = htmlspecialchars($_POST['nama']);
-    $nama = htmlspecialchars($_POST['nama']);
+    $nama = validasi($_POST['nama']);
     $pass = htmlspecialchars($_POST['password']);
     $jabatan = "2";
+    $nik = validasi($_POST['nik']);
+    $email = validasi($_POST['email']);
 
 
-    $username = strtolower($nama);
+    $username = strtolower(validasi($_POST['username']));
     $username = htmlspecialchars(str_replace(' ', '', $username));
 
     $passhash = md5($pass);
@@ -77,14 +79,14 @@ if (isset($_POST['register'])) {
         $_SESSION['pesan'] = "gagal";
         header("Location: ../page/login.php");
     } else {
-        $query2 = mysqli_query($conn, "INSERT INTO auth (Username, Password, Last_login, Created_at) VALUES ('$username', '$passhash', '$now', '$now')");
+        $query2 = mysqli_query($conn, "INSERT INTO auth (Username, Email, Password, Last_login, Created_at) VALUES ('$username', '$email', '$passhash', '$now', '$now')");
 
         $cari = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$username' OR Email='$username'");
         $data = mysqli_fetch_assoc($cari);
         $kode_petugas = $data['Kode_petugas'];
 
 
-        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, Nama, Jabatan) VALUES ('$kode_petugas', '$nama', '$jabatan')");
+        $query3 = mysqli_query($conn, "INSERT INTO petugas (Kode_petugas, NIK, Nama, Jabatan) VALUES ('$kode_petugas', '$nik', '$nama', '$jabatan')");
 
         if ($query2 && $query3) {
             $_SESSION['username'] = $username;

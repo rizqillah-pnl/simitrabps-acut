@@ -61,7 +61,7 @@ if (isset($_SESSION['id'])) {
             <!-- Form Login -->
             <div class="card" style=" padding-top: 30px; padding-bottom: 10px; width: 26rem;">
                 <div class="pt-2 pb-3 mx-auto">
-                    <form method="POST" style="width: 350px;" action="../model/login.php" class="mx-auto">
+                    <form method="POST" style="width: 350px;" action="../model/login.php" class="mx-auto" autocomplete="off">
                         <label for="floatingUsername" class="form-label">Username</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon3"><i class="fa-solid fa-circle-user"></i></span>
@@ -146,29 +146,41 @@ if (isset($_SESSION['id'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="RegistrasiLabel">Registrasi</h5>
+                    <h5 class="modal-title" id="RegistrasiLabel">Registrasi Akun</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="../model/tambah-user.php" class="mx-auto">
-                        <div class="form-floating mb-2">
-                            <input type="text" class="form-control" id="Nama" placeholder="name@example.com" name="nama" required maxlength="25" oninput="this.value = this.value.toLowerCase()">
-                            <label for="Nama">Username</label>
+                    <form method="POST" action="../model/tambah-user.php" class="mx-auto" autocomplete="off">
+                        <div class="mb-3">
+                            <label for="nik" class="form-label fw-semibold">NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik" aria-describedby="emailHelp" placeholder="Masukan NIK anda" required>
                         </div>
-                        <div class="form-floating mb-2">
-                            <input type="password" class="form-control" id="password" placeholder="Password" name="password" maxlength="50">
-                            <label for="password">Password</label>
+                        <div class="mb-3">
+                            <label for="nama" class="form-label fw-semibold">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama" name="nama" required maxlength="100" placeholder="Nama Lengkap">
                         </div>
-                        <div class="form-floating mb-2">
-                            <input type="password" class="form-control" id="passkon" placeholder="Password" aria-describedby="validationServer03Feedback" required maxlength="50">
-                            <label for="passkon">Konfirmasi Password</label>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required maxlength="100" placeholder="Masukan alamat email aktif">
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required maxlength="25" oninput="this.value = this.value.toLowerCase()" placeholder="Masukan Username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passkon" class="form-label fw-semibold">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="passkon" name="passkon" placeholder="Konfirmasi Password" required>
                             <div id="validationServer03Feedback" class="invalid-feedback">
                                 Password tidak sama
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <input type="checkbox" name="check2" id="check2" class="mx-2" onclick="myFunction()">
-                            <label for="check2" class="text-dark">Show Password</label>
+                            <label for="check2" class="text-dark fw-semibold">Show Password</label>
                         </div>
                         <script>
                             function myFunction() {

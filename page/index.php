@@ -257,74 +257,76 @@ $result1 = mysqli_fetch_assoc($data);
                                                                 <?= ucwords($row['jenis_lowongan']); ?></h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <form action="../model/lowongan.php" method="post" enctype="multipart/form-data">
-                                                            <input type="hidden" name="idLowongan" value="<?= $row['id']; ?>">
-                                                            <div class="modal-body">
-                                                                <div class="mb-3 row">
-                                                                    <label for="Kabupaten" class="col-md-3 ">Kabupaten
-                                                                    </label>
-                                                                    <div class="col sm-8">
-                                                                        <span class="font-weight-bold d-flex">
-                                                                            <span class="d-none d-md-flex">Aceh Utara</span>
-                                                                        </span>
+                                                        <div class="modal-body">
+                                                            <form action="../model/lowongan.php" method="post" enctype="multipart/form-data">
+                                                                <input type="hidden" name="idLowongan" value="<?= $row['id']; ?>">
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3 row">
+                                                                        <label for="Kabupaten" class="col-md-4 ">Kabupaten
+                                                                        </label>
+                                                                        <div class="col sm-8">
+                                                                            <span class="font-weight-bold d-flex">
+                                                                                <span class="d-none d-md-flex">Aceh Utara</span>
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">Kecamatan</div>
-                                                                    <div class="col-md-8">
-                                                                        <select name="kecamatan" class="form-select" id="select_boxx">
-                                                                            <!-- <option>Pilih Kecamatan</option> -->
-                                                                            <?php $kec = mysqli_query($conn, "SELECT * FROM tb_kecamatan"); ?>
-                                                                            <?php foreach ($kec as $row) : ?>
-                                                                                <option value="<?= $row['id']; ?>">
-                                                                                    <?= $row['nama_kec']; ?></option>
-                                                                            <?php endforeach; ?>
-                                                                        </select>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">Kecamatan</div>
+                                                                        <div class="col-md-8">
+                                                                            <select name="kecamatan" class="form-select" id="select_boxx">
+                                                                                <!-- <option>Pilih Kecamatan</option> -->
+                                                                                <?php $kec = mysqli_query($conn, "SELECT * FROM tb_kecamatan"); ?>
+                                                                                <?php foreach ($kec as $row) : ?>
+                                                                                    <option value="<?= $row['id']; ?>">
+                                                                                        <?= $row['nama_kec']; ?></option>
+                                                                                <?php endforeach; ?>
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">Umur</div>
-                                                                    <div class="col-md-3">
-                                                                        <input type="number" class="form-control" name="umur" id="umur" min="15" max="50" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">Umur</div>
+                                                                        <div class="col-md-4">
+                                                                            <input type="number" class="form-control" name="umur" id="umur" min="15" max="50" required>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">CV</div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="file" class="form-control" name="cv" id="cv" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">CV</div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" class="form-control" name="cv" id="cv" required>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">KTP</div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="file" class="form-control" name="ktp" id="ktp" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">KTP</div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" class="form-control" name="ktp" id="ktp" required>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">Ijazah</div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="file" class="form-control" name="ijazah" id="ijazah" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">Ijazah</div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" class="form-control" name="ijazah" id="ijazah" required>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">Surat Lamaran</div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="file" class="form-control" name="suratLamaran" id="suratLamaran" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">Surat Lamaran</div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" class="form-control" name="suratLamaran" id="suratLamaran" required>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="mb-3 row">
-                                                                    <div class="col-md-3">Surat Domisili</div>
-                                                                    <div class="col-md-8">
-                                                                        <input type="file" class="form-control" name="suratDomisili" id="suratDomisili" required>
+                                                                    <div class="mb-3 row">
+                                                                        <div class="col-md-4">Surat Domisili</div>
+                                                                        <div class="col-md-8">
+                                                                            <input type="file" class="form-control" name="suratDomisili" id="suratDomisili" required>
+                                                                        </div>
                                                                     </div>
+                                                                    <div class="form-text mt-3">File : PDF, JPG, PNG, JPEG Max 2MB</div>
                                                                 </div>
-                                                                <div class="form-text mt-3">File : PDF, JPG, PNG, JPEG Max 2MB</div>
 
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                                     <button type="submit" name="daftarLowongan" class="btn btn-success text-white">Daftar</button>
                                                                 </div>
-                                                            </div>
+                                                        </div>
                                                         </form>
                                                     </div>
                                                 </div>
