@@ -70,6 +70,17 @@ if ($result1['Id_jabatan'] == "1") :
                                         Pendaftar</span></a></li>
 
                             <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user.php" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Account</span></a></li>
+
+                            <li class="sidebar-item">
+                                <div class="dropdown">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link dropdown-toggle" href="profile.php" ole="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-note-text"></i><span class="hide-menu">Laporan</span></a>
+
+                                    <ul class="dropdown-menu" style="width: 215px;">
+                                        <li><a class="dropdown-item waves-effect waves-dark" href="cetak-survei.php"><i class="mdi mdi-chart-bubble"></i> Survei</a></li>
+                                        <li><a class="dropdown-item waves-effect waves-dark" href="pelamar.php"><i class="mdi mdi-human-male-female"></i> Pelamar</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         <?php } ?>
 
                         <li class="sidebar-item logout-item" style="position: fixed; bottom: 0; width: 220px">

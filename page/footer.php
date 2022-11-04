@@ -66,7 +66,11 @@
            }
        }
    </script>
-   <script src="../public/assets/libs/jquery/dist/jquery.min.js"></script>
+
+
+   <script src="../public/js/rowspanizer/jquery.rowspanizer.min.js"></script>
+   <script src="../public/js/mergecells/jquery.table.marge.js"></script>
+   <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
    <script src="../public/js/script.js"></script>
    <!-- Bootstrap tether Core JavaScript -->
