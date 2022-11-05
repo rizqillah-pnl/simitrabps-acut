@@ -17,12 +17,7 @@ $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Passwo
 $result1 = mysqli_fetch_assoc($sql);
 
 if ($result1['Id_jabatan'] == "1") :
-  $kec = 0;
-
-  if (isset($_POST['kec'])) {
-    $kec = $_POST['kec'];
-    $data = mysqli_query($conn, "SELECT ptg.Nama, tlu.id_lowongan, tlu.L_action, tlu.tanggal_daftar, tlu.tanggal_konfirmasi, lw.jenis_lowongan FROM tb_lowongan_user tlu, petugas ptg, tb_kecamatan kec, lowongan lw WHERE ptg.Kode_petugas=tlu.id_petugas AND tlu.id_lowongan=lw.id AND tlu.id_kec=kec.id AND kec.id='$kec'");
-  }
+  $data = mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec WHERE tb_lowongan_user.id IS NOT NULL ORDER BY petugas.Kode_petugas, tb_kecamatan.id, lowongan.id");
 
 
 
@@ -74,8 +69,8 @@ if ($result1['Id_jabatan'] == "1") :
                   <a class="sidebar-link waves-effect waves-dark sidebar-link dropdown-toggle text-white" href="profile.php" ole="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-note-text text-white"></i><span class="hide-menu text-white">Laporan</span></a>
 
                   <ul class="dropdown-menu" style="width: 215px;">
-                    <li><a class="dropdown-item waves-effect waves-dark active" href="cetak-survei.php"><i class="mdi mdi-chart-bubble"></i> Survei</a></li>
-                    <li><a class="dropdown-item waves-effect waves-dark" href="pelamar.php"><i class="mdi mdi-human-male-female"></i> Pelamar</a></li>
+                    <li><a class="dropdown-item waves-effect waves-dark" href="cetak-survei.php"><i class="mdi mdi-chart-bubble"></i> Survei</a></li>
+                    <li><a class="dropdown-item waves-effect waves-dark active" href="pelamar.php"><i class="mdi mdi-human-male-female"></i> Pelamar</a></li>
                   </ul>
                 </div>
               </li>
@@ -113,10 +108,10 @@ if ($result1['Id_jabatan'] == "1") :
               <ol class="breadcrumb mb-0 d-flex align-items-center">
                 <li class="breadcrumb-item"><a href="index.php" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
                 <li class="breadcrumb-item">Laporan</li>
-                <li class="breadcrumb-item active" aria-current="page">Survei</li>
+                <li class="breadcrumb-item active" aria-current="page">Pelamar</li>
               </ol>
             </nav>
-            <h1 class="mb-0 fw-bold">Cetak Survei</h1>
+            <h1 class="mb-0 fw-bold">Cetak Data Pelamar</h1>
           </div>
           <div class="col-6">
 
@@ -130,92 +125,102 @@ if ($result1['Id_jabatan'] == "1") :
       <!-- Container fluid  -->
       <!-- ============================================================== -->
       <div class="container-fluid">
-        <form action="" method="post">
-          <span>Kecamatan :</span>
-          <?php $dataKec = mysqli_query($conn, "SELECT * FROM tb_kecamatan"); ?>
-          <select class="form-select mb-2" aria-label="Default select example" name="kec">
-            <?php foreach ($dataKec as $row) : ?>
-              <?php if (isset($_POST['kec'])) {
-                if ($_POST['kec'] == $row['id']) : ?>
-                  <option value="<?= $row['id']; ?>" selected><?= $row['nama_kec']; ?></option>
-                  <?php continue; ?>
-                <?php endif; ?>
-              <?php } ?>
-              <option value="<?= $row['id']; ?>"><?= $row['nama_kec']; ?></option>
-            <?php endforeach; ?>
-          </select>
-          <div class="d-grid gap-2 mb-3">
-            <button type="submit" name="submit" class="btn btn-primary"><i class="mdi mdi-magnify"></i> Pilih</button>
-          </div>
-        </form>
+        <div class="table-responsive" id="container">
+          <table class="table align-middle text-nowrap" id="tabelku">
+            <thead class="table-dark">
+              <tr class="fw-semibold text-center">
+                <td>#</td>
+                <td>Nama</td>
+                <td>Jumlah Daftar</td>
+                <td>No</td>
+                <td>Nama Survei</td>
+                <td>Kecamatan</td>
+                <td>Tanggal Daftar</td>
+                <td>Tanggal Konfirmasi</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            <tbody>
+              <?php $i = 1;
+              $j = 1;
+              $temp = null;
+              $temp2 = null;
+              ?>
+              <?php if (mysqli_num_rows($data) != 0) : ?>
+                <?php while ($row = mysqli_fetch_assoc($data)) : ?>
+                  <?php
+                  $idPetugas = $row['Kode_petugas'];
+                  $jumDaftar = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM tb_lowongan_user WHERE id_petugas='$idPetugas'")); ?>
 
-        <?php if (isset($_POST['kec'])) : ?>
-          <div class="table-responsive" id="container">
-            <table class="table align-middle text-nowrap" id="tabelku">
-              <thead class="table-dark">
-                <tr class="fw-semibold text-center">
-                  <td>#</td>
-                  <td>Nama Survei</td>
-                  <td>Jumlah Pendaftar</td>
-                  <td>Nama Pendaftar</td>
-                  <td>Status</td>
-                  <td>Tanggal Daftar</td>
-                  <td>Tanggal Konfirmasi</td>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if (mysqli_num_rows($data) != 0) : ?>
-                  <?php if ($kec != 0) : ?>
-                    <?php while ($row = mysqli_fetch_assoc($data)) : ?>
-                      <?php
-                      $idLowongan = $row['id_lowongan'];
-                      $jumDaftar = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas WHERE tb_lowongan_user.id_kec='$kec' AND tb_lowongan_user.id_lowongan='$idLowongan'")); ?>
-
-                      <tr class="text-center">
-                        <td scope="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <span class="text-dark"><?= $row['id_lowongan']; ?></span>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?= $row['jenis_lowongan']; ?>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?= $jumDaftar; ?>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?= $row['Nama']; ?>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?php if ($row['L_action'] != null) : ?>
-                            <?= ($row['L_action'] == 1) ? "Diterima" : "Ditolak"; ?>
-                          <?php else : ?>
-                            Pending
-                          <?php endif; ?>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?= date('d F Y', strtotime($row['tanggal_daftar'])); ?>
-                        </td>
-                        <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <?= ($row['tanggal_konfirmasi'] != null) ? date('d F Y', strtotime($row['tanggal_konfirmasi'])) : "<i class='text-secondary'>-</i>"; ?>
-                        </td>
-                      </tr>
-                    <?php endwhile; ?>
-                  <?php endif; ?>
-                <?php else : ?>
-                  <tr class="text-center fw-bold">
-                    <td colspan="7">DATA TIDAK ADA!</td>
+                  <tr class="text-center">
+                    <td scope="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <span class="text-dark">
+                        <?php if ($temp == null) : ?>
+                          <?= $i; ?>
+                        <?php elseif ($temp != $idPetugas) : ?>
+                          <?= $i += 1; ?>
+                        <?php else : ?>
+                          <?= $i; ?>
+                        <?php endif; ?>
+                        <?php $temp = $idPetugas; ?>
+                      </span>
+                    </td>
+                    <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= $row['Nama']; ?>
+                    </td>
+                    <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= $jumDaftar; ?>
+                    </td>
+                    <td scope="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <span class="text-secondary">
+                        <?php if ($temp2 == null) : ?>
+                          <?= $j ?>
+                        <?php elseif ($temp2 == $idPetugas) : ?>
+                          <?= $j += 1; ?>
+                        <?php else : ?>
+                          <?php $j = 1;
+                          echo $j; ?>
+                        <?php endif; ?>
+                        <?php $temp2 = $idPetugas; ?>
+                      </span>
+                    </td>
+                    <td class="text-center text-dark text-wrap" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= $row['jenis_lowongan']; ?>
+                    </td>
+                    <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= $row['nama_kec']; ?>
+                    </td>
+                    <td class="text-center text-dark text-wrap" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= date('d F Y', strtotime($row['tanggal_daftar'])); ?>
+                    </td>
+                    <td class="text-center text-dark text-wrap" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?= ($row['tanggal_konfirmasi'] != null) ? date('d F Y', strtotime($row['tanggal_konfirmasi'])) : "<i class='text-secondary'>-</i>"; ?>
+                    </td>
+                    <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                      <?php if ($row['L_action'] != null) : ?>
+                        <?= ($row['L_action'] == 1) ? "<span class='text-success'>Diterima</span>" : "<span class='text-danger'>Ditolak</span>"; ?>
+                      <?php else : ?>
+                        Pending
+                      <?php endif; ?>
+                    </td>
                   </tr>
-                <?php endif; ?>
-              </tbody>
-            </table>
+                <?php endwhile; ?>
+              <?php else : ?>
+                <tr class="text-center fw-bold">
+                  <td colspan="7">DATA TIDAK ADA!</td>
+                </tr>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+
+
+        <?php if (mysqli_num_rows($data) != 0) : ?>
+          <div class="text-end mb-4">
+            <form action="print-pelamar.php" method="post" target="_blank">
+              <button type="submit" class="btn btn-success text-white"><i class="mdi mdi-printer"></i> Cetak</button>
+            </form>
           </div>
-
-
-          <?php if (mysqli_num_rows($data) != 0) : ?>
-            <div class="d-grid gap-2 mb-3">
-              <a href="print.php?id=<?= $kec; ?>" target="_blank" class="btn btn-success text-white"><i class="mdi mdi-printer"></i> Cetak</a>
-            </div>
-          <?php endif; ?>
-
         <?php endif; ?>
 
         <script>

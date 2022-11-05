@@ -21,7 +21,7 @@ if ($result1['Id_jabatan'] == "1") :
 
   if (isset($_POST['kec'])) {
     $kec = $_POST['kec'];
-    $data = mysqli_query($conn, "SELECT ptg.Nama, tlu.id_lowongan, tlu.L_action, tlu.tanggal_daftar, tlu.tanggal_konfirmasi, lw.jenis_lowongan FROM tb_lowongan_user tlu, petugas ptg, tb_kecamatan kec, lowongan lw WHERE ptg.Kode_petugas=tlu.id_petugas AND tlu.id_lowongan=lw.id AND tlu.id_kec=kec.id AND kec.id='$kec'");
+    $data = mysqli_query($conn, "SELECT ptg.Nama, tlu.id_lowongan, tlu.L_action, tlu.tanggal_daftar, tlu.tanggal_konfirmasi, lw.jenis_lowongan FROM tb_lowongan_user tlu, petugas ptg, tb_kecamatan kec, lowongan lw WHERE ptg.Kode_petugas=tlu.id_petugas AND tlu.id_lowongan=lw.id AND tlu.id_kec=kec.id AND kec.id='$kec' ORDER BY lw.id, ptg.Kode_petugas");
   }
 
 
@@ -157,6 +157,7 @@ if ($result1['Id_jabatan'] == "1") :
                   <td>#</td>
                   <td>Nama Survei</td>
                   <td>Jumlah Pendaftar</td>
+                  <td>No</td>
                   <td>Nama Pendaftar</td>
                   <td>Status</td>
                   <td>Tanggal Daftar</td>
@@ -164,6 +165,11 @@ if ($result1['Id_jabatan'] == "1") :
                 </tr>
               </thead>
               <tbody>
+                <?php $i = 1;
+                $temp = null;
+                $j = 1;
+                $temp2 = null;
+                ?>
                 <?php if (mysqli_num_rows($data) != 0) : ?>
                   <?php if ($kec != 0) : ?>
                     <?php while ($row = mysqli_fetch_assoc($data)) : ?>
@@ -173,7 +179,16 @@ if ($result1['Id_jabatan'] == "1") :
 
                       <tr class="text-center">
                         <td scope="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
-                          <span class="text-dark"><?= $row['id_lowongan']; ?></span>
+                          <span class="text-dark">
+                            <?php if ($temp == null) : ?>
+                              <?= $i; ?>
+                            <?php elseif ($temp != $idLowongan) : ?>
+                              <?= $i += 1; ?>
+                            <?php else : ?>
+                              <?= $i; ?>
+                            <?php endif; ?>
+                            <?php $temp = $idLowongan; ?>
+                          </span>
                         </td>
                         <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
                           <?= $row['jenis_lowongan']; ?>
@@ -181,12 +196,25 @@ if ($result1['Id_jabatan'] == "1") :
                         <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
                           <?= $jumDaftar; ?>
                         </td>
+                        <td scope="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
+                          <span class="text-secondary">
+                            <?php if ($temp2 == null) : ?>
+                              <?= $j ?>
+                            <?php elseif ($temp2 == $idLowongan) : ?>
+                              <?= $j += 1; ?>
+                            <?php else : ?>
+                              <?php $j = 1;
+                              echo $j; ?>
+                            <?php endif; ?>
+                            <?php $temp2 = $idLowongan; ?>
+                          </span>
+                        </td>
                         <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
                           <?= $row['Nama']; ?>
                         </td>
                         <td class="text-center text-dark" style="padding-bottom: 8px; padding-top: 8px;">
                           <?php if ($row['L_action'] != null) : ?>
-                            <?= ($row['L_action'] == 1) ? "Diterima" : "Ditolak"; ?>
+                            <?= ($row['L_action'] == 1) ? "<span class='text-success'>Diterima</span>" : "<span class='text-danger'>Ditolak</span>"; ?>
                           <?php else : ?>
                             Pending
                           <?php endif; ?>
@@ -211,8 +239,11 @@ if ($result1['Id_jabatan'] == "1") :
 
 
           <?php if (mysqli_num_rows($data) != 0) : ?>
-            <div class="d-grid gap-2 mb-3">
-              <a href="print.php?id=<?= $kec; ?>" target="_blank" class="btn btn-success text-white"><i class="mdi mdi-printer"></i> Cetak</a>
+            <div class="text-end mb-4">
+              <form action="print.php" method="post" target="_blank">
+                <input type="hidden" name="id" value="<?= $kec; ?>">
+                <button type="submit" class="btn btn-success text-white"><i class="mdi mdi-printer"></i> Cetak</button>
+              </form>
             </div>
           <?php endif; ?>
 
