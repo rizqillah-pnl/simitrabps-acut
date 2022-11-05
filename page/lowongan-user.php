@@ -195,9 +195,9 @@ $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Passw
         <!-- ============================================================== -->
         <!-- Container fluid  -->
         <!-- ============================================================== -->
-        <div class="container-fluid">
+        <div class="container-fluid mb-4">
             <div class="table-responsive" id="container">
-                <table class="table table-hover align-middle text-nowrap table-striped">
+                <table class="table table-hover align-middle text-nowrap">
                     <thead class="table-dark">
                         <tr class="fw-semibold text-center">
                             <td style="width: 10px;">No</td>
@@ -228,10 +228,18 @@ $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Passw
                                     </td>
 
                                     <td class="text-start text-dark text-wrap text-break" style="padding-bottom: 0; padding-top: 0; width: 10rem;">
-                                        <?= $row['deskripsi']; ?>
+                                        <?php if (strlen($row['deskripsi']) > 50) : ?>
+                                            <?= substr($row['deskripsi'], 0, 50); ?> . . .
+                                        <?php else : ?>
+                                            <?= $row['deskripsi']; ?>
+                                        <?php endif; ?>
                                     </td>
-                                    <td class="text-start text-dark text-wrap text-break" style="padding-bottom: 0; padding-top: 0;width: 10rem;">
-                                        <?= $row['persyaratan']; ?>
+                                    <td class="text-start text-dark text-wrap" style="padding-bottom: 0; padding-top: 0;width: 10rem;">
+                                        <?php if (strlen($row['persyaratan']) > 50) : ?>
+                                            <?= substr($row['persyaratan'], 0, 50); ?> . . .
+                                        <?php else : ?>
+                                            <?= $row['persyaratan']; ?>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="text-center text-dark" style="padding-bottom: 0; padding-top: 0;">
                                         <?= date('d M Y | H:i', strtotime($row['tanggal_daftar'])); ?> WIB

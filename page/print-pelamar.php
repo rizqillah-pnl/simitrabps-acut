@@ -35,7 +35,7 @@ if ($result1['Id_jabatan'] == "1" && $_SERVER['REQUEST_METHOD'] == "POST") :
 
   </head>
 
-  <body onload="window.print()">
+  <body>
     <?php $url = "../"; ?>
 
     <!-- ============================================================== -->
@@ -143,6 +143,8 @@ if ($result1['Id_jabatan'] == "1" && $_SERVER['REQUEST_METHOD'] == "POST") :
               type: 2,
               colindex: [0, 1, 2] // column 1, 2
             });
+
+            window.print();
 
           })
         </script>
