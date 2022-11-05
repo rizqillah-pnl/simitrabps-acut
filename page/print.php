@@ -11,14 +11,16 @@ date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H-i-s");
 if (isset($_POST['id'])) :
   $kec = $_POST['id'];
-  $data = mysqli_query($conn, "SELECT ptg.Nama, tlu.id_lowongan, tlu.L_action, tlu.tanggal_daftar, tlu.tanggal_konfirmasi, lw.jenis_lowongan, kec.nama_kec FROM tb_lowongan_user tlu, petugas ptg, tb_kecamatan kec, lowongan lw WHERE ptg.Kode_petugas=tlu.id_petugas AND tlu.id_lowongan=lw.id AND tlu.id_kec=kec.id AND kec.id='$kec' ORDER BY lw.id, ptg.Kode_petugas");
+  $namaKec = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM tb_kecamatan WHERE id='$kec'"))['nama_kec'];
+
+  $data = mysqli_query($conn, "SELECT ptg.Nama, tlu.id_lowongan, tlu.L_action, tlu.tanggal_daftar, tlu.tanggal_konfirmasi, lw.jenis_lowongan FROM tb_lowongan_user tlu, petugas ptg, auth ath, tb_kecamatan kec, lowongan lw WHERE ptg.Kode_petugas=tlu.id_petugas AND tlu.id_lowongan=lw.id AND tlu.id_kec=kec.id AND ath.Kode_petugas=ptg.Kode_petugas AND kec.id='$kec' AND ath.deleted=0 ORDER BY lw.id, ptg.Kode_petugas");
 ?>
 
   <!DOCTYPE html>
   <html dir="ltr" lang="en">
 
   <head>
-    <title>Laporan Survei Kecamatan <?= mysqli_fetch_assoc($data)['nama_kec']; ?></title>
+    <title>Laporan Survei Kecamatan <?= $namaKec; ?></title>
     <?php include 'meta.php'; ?>
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
@@ -35,7 +37,7 @@ if (isset($_POST['id'])) :
       <!-- Container fluid  -->
       <!-- ============================================================== -->
       <div class="container-fluid">
-        <h1 class="text-center mb-4">Data Laporan Survei - <?= mysqli_fetch_assoc($data)['nama_kec']; ?></h1>
+        <h1 class="text-center mb-4">Data Laporan Survei - <?= $namaKec; ?></h1>
         <?php if (isset($_POST['id'])) : ?>
           <div class="table-responsive" id="container">
             <table class="table align-middle text-nowrap" id="tabelku">

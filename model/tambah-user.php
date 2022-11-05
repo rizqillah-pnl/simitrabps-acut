@@ -9,7 +9,7 @@ session_start();
 if (isset($_POST['tambah-user'])) {
     $kode = $_SESSION['id'];
 
-    $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Status, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode'");
+    $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Status, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' AND a.deleted=0");
     $result = mysqli_fetch_assoc($sql);
 
 
@@ -25,16 +25,16 @@ if (isset($_POST['tambah-user'])) {
     $now = date("Y-m-d H:i:s");
 
 
-    $query = mysqli_query($conn, "SELECT * FROM auth WHERE Kode_petugas='$kode_petugas' OR Username='$username' OR Email='$username'");
+    $query = mysqli_query($conn, "SELECT * FROM auth WHERE  deleted=0 AND (Kode_petugas='$kode_petugas' OR Username='$username' OR Email='$username')");
     $cek = mysqli_num_rows($query);
 
     if ($cek == 1) {
         $_SESSION['pesan'] = "gagal";
         header("Location: ../page/user.php");
     } else {
-        $query2 = mysqli_query($conn, "INSERT INTO auth (Kode_petugas, Username, Password, Last_login, Created_at) VALUES ('$kode_petugas', '$username', '$passhash', '$now', '$now')");
+        $query2 = mysqli_query($conn, "INSERT INTO auth (Kode_petugas, Username, Password, Last_login, Created_at, deleted) VALUES ('$kode_petugas', '$username', '$passhash', '$now', '$now', 0)");
 
-        $cari = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$username' OR Email='$username'");
+        $cari = mysqli_query($conn, "SELECT * FROM auth WHERE  deleted=0 AND (Username='$username' OR Email='$username')");
         $data = mysqli_fetch_assoc($cari);
         $kode_petugas = $data['Kode_petugas'];
 
@@ -72,16 +72,16 @@ if (isset($_POST['register'])) {
 
 
 
-    $query = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$username' OR Email='$username'");
+    $query = mysqli_query($conn, "SELECT * FROM auth WHERE  deleted=0 AND (Username='$username' OR Email='$username')");
     $cek = mysqli_num_rows($query);
 
     if ($cek == 1) {
         $_SESSION['pesan'] = "gagal";
         header("Location: ../page/login.php");
     } else {
-        $query2 = mysqli_query($conn, "INSERT INTO auth (Username, Email, Password, Last_login, Created_at) VALUES ('$username', '$email', '$passhash', '$now', '$now')");
+        $query2 = mysqli_query($conn, "INSERT INTO auth (Username, Email, Password, Last_login, Created_at, deleted) VALUES ('$username', '$email', '$passhash', '$now', '$now', 0)");
 
-        $cari = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$username' OR Email='$username'");
+        $cari = mysqli_query($conn, "SELECT * FROM auth WHERE deleted=0 AND (Username='$username' OR Email='$username')");
         $data = mysqli_fetch_assoc($cari);
         $kode_petugas = $data['Kode_petugas'];
 

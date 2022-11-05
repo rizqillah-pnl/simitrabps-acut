@@ -12,12 +12,12 @@ date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H-i-s");
 $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
 
-$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' ORDER BY c.Id_jabatan");
+$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' AND a.deleted=0 ORDER BY c.Id_jabatan");
 
 $result1 = mysqli_fetch_assoc($sql);
 
 if ($result1['Id_jabatan'] == "1") :
-  $data = mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec WHERE tb_lowongan_user.id IS NOT NULL ORDER BY petugas.Kode_petugas, tb_kecamatan.id, lowongan.id");
+  $data = mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec LEFT JOIN auth ON petugas.Kode_petugas=auth.Kode_petugas WHERE tb_lowongan_user.id IS NOT NULL AND auth.deleted=0 ORDER BY petugas.Kode_petugas, tb_kecamatan.id, lowongan.id");
 
 
 
@@ -207,7 +207,7 @@ if ($result1['Id_jabatan'] == "1") :
                 <?php endwhile; ?>
               <?php else : ?>
                 <tr class="text-center fw-bold">
-                  <td colspan="7">DATA TIDAK ADA!</td>
+                  <td colspan="9">DATA TIDAK ADA!</td>
                 </tr>
               <?php endif; ?>
             </tbody>

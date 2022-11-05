@@ -11,7 +11,7 @@ $kode = $_SESSION['id'];
 date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H-i-s");
 $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
-$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' ORDER BY c.Id_jabatan");
+$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' AND a.deleted=0 ORDER BY c.Id_jabatan");
 
 $result1 = mysqli_fetch_assoc($sql);
 
@@ -23,9 +23,6 @@ if ($result1['Id_jabatan'] == "1") :
     $jumlahHalaman = ceil($jumData / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET['page'])) ? $_GET['page'] : 1;
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-
-
-    $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan ORDER BY b.Jabatan, a.Last_login DESC LIMIT $awalData, $jumlahDataPerHalaman");
 ?>
 
     <!DOCTYPE html>
@@ -181,8 +178,8 @@ if ($result1['Id_jabatan'] == "1") :
                         tb_lowongan_user.id_petugas, tb_lowongan_user.tanggal_daftar, tb_lowongan_user.id_kec, tb_lowongan_user.umur, tb_lowongan_user.cv, tb_lowongan_user.ktp, tb_lowongan_user.ijazah, tb_lowongan_user.suratLamaran, tb_lowongan_user.suratDomisili, lowongan.jenis_lowongan,
                         lowongan.tanggal_mulai, lowongan.tanggal_akhir, lowongan.persyaratan, lowongan.deskripsi, lowongan.gambar, petugas.nama, petugas.Foto, tb_kecamatan.nama_kec FROM 
                         tb_lowongan_user LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN petugas ON 
-                        petugas.kode_petugas=tb_lowongan_user.id_petugas LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec
-                        WHERE L_action IS NULL ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
+                        petugas.kode_petugas=tb_lowongan_user.id_petugas LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec LEFT JOIN auth ON petugas.Kode_petugas=auth.Kode_petugas
+                        WHERE tb_lowongan_user.L_action IS NULL AND auth.deleted=0 ORDER BY tb_lowongan_user.id DESC LIMIT $awalData, $jumlahDataPerHalaman"); ?>
                             <?php if (mysqli_num_rows($pendaftar) != 0) : ?>
                                 <?php foreach ($pendaftar as $row) : ?>
                                     <tr class="text-start">
@@ -223,7 +220,7 @@ if ($result1['Id_jabatan'] == "1") :
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Anda yakin ingin Menerima Lowongan dari <strong></strong>?
+                                                    Anda yakin ingin Menerima Permohonan dari <strong><?= $row['nama']; ?></strong>?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form action="../model/delete-lowongan-user.php" method="POST">
@@ -246,7 +243,7 @@ if ($result1['Id_jabatan'] == "1") :
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Anda yakin ingin Menolak Lowongan dari <strong></strong>?
+                                                    Anda yakin ingin Menolak Permohonan dari <strong><?= $row['nama']; ?></strong>?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form action="../model/delete-lowongan-user.php" method="POST">
@@ -334,6 +331,8 @@ if ($result1['Id_jabatan'] == "1") :
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
+                            <?php else : ?>
+                                <td colspan="6" class="text-center fw-bold">BELUM ADA PERMOHONAN</td>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -376,151 +375,6 @@ if ($result1['Id_jabatan'] == "1") :
                 </div>
             </div>
 
-            <?php if (mysqli_num_rows($data) != 0) : ?>
-                <?php foreach ($data as $row) : ?>
-                    <!-- Modal Edit -->
-                    <!-- <div class="modal fade " id="Edit<?= $row['id']; ?>" tabindex="-1" aria-labelledby="EditLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="EditLabel">Edit Lowongan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="../model/edit-lowongan.php" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" value="<?= $row['id']; ?>">
-                        <div class="modal-body">
-                            <div class="mb-3 row">
-                                <label for="gambar" class="col-md-4 col-form-label">Gambar Lowongan</label>
-                                <div class="col-sm-8">
-                                    <input type="file" name="foto" class="form-control" accept="image/*">
-                                </div>
-                            </div>
-
-                            <div class="mb-3 row">
-                                <label for="Nama_Pekerjaan" class="col-md-4 col-form-label">Nama Pekerjaan</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="jenis" class="form-control"
-                                        value="<?= $row['jenis_lowongan']; ?>" maxlength="25">
-                                </div>
-                            </div>
-
-
-                            <div class="mb-3 row">
-                                <label for="syarat" class="col-md-4 col-form-label">Persyaratan</label>
-                                <div class="col-sm-8">
-                                    <textarea name="syarat" cols="37" class="form-control" rows="5"
-                                        required><?= $row['persyaratan']; ?></textarea>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="deskripsi" class="col-md-4 col-form-label">Deskripsi</label>
-                                <div class="col-sm-8">
-                                    <textarea name="deskripsi" cols="37" class="form-control" rows="5"
-                                        required><?= $row['deskripsi']; ?></textarea>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="tglmulai" class="col-md-4 col-form-label">Tanggal Mulai</label>
-                                <div class="col-sm-8">
-                                    <input type="date" name="tglmulai" class="form-control" required maxlength="50"
-                                        value="<?= $row['tanggal_mulai']; ?>">
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="tglakhir" class="col-md-4 col-form-label">Tanggal Akhir</label>
-                                <div class="col-sm-8">
-                                    <input type="date" name="tglakhir" class="form-control" required maxlength="50"
-                                        value="<?= $row['tanggal_akhir']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" name="edit-lowongan" class="btn btn-warning">Edit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> -->
-
-
-                    <!-- Modal Delete -->
-                    <div class="modal fade " id="Delete<?= $row['id']; ?>" tabindex="-1" aria-labelledby="DeleteLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="DeleteLabel">Hapus Lowongan</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Anda yakin ingin menghapus lowongan <strong><?= $row['jenis_lowongan']; ?></strong>?
-                                </div>
-                                <div class="modal-footer">
-                                    <form action="../model/delete-lowongan.php" method="POST">
-                                        <input type="hidden" name="id" value="<?= $row['id']; ?>">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" name="delete-lowongan" class="btn btn-danger text-white">Hapus</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal Detail -->
-                    <!-- <div class="modal fade " id="Detail<?= $row['id']; ?>" tabindex="-1" aria-labelledby="DetailLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="DetailLabel">Detail Lowongan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <center><img src="../public/img/assets/<?= $row['gambar']; ?>" alt="Foto Profil"
-                                class="rounded-circle img-thumbnail" width="400px">
-                        </center>
-                        <table class="table table-striped-columns">
-                            <tr>
-                                <td>
-                                    Nama Lowongan
-                                </td>
-                                <td> : </td>
-                                <td><?= $row['jenis_lowongan']; ?></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Persyaratan
-                                </td>
-                                <td> : </td>
-                                <td><?= $row['persyaratan']; ?></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Deskripsi
-                                </td>
-                                <td> : </td>
-                                <td><?= $row['deskripsi']; ?></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Waktu Lowongan
-                                </td>
-                                <td> : </td>
-                                <td><?= date('d F Y', strtotime($row['tanggal_mulai'])); ?> &#8594;
-                                    <?= date('d F Y', strtotime($row['tanggal_akhir'])); ?></td>
-                            </tr>
-
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-                <?php endforeach; ?>
-            <?php endif; ?>
 
             <!-- Modal Tambah User -->
             <div class="modal fade " id="TambahLowongan" tabindex="-1" aria-labelledby="TambahLowonganLabel" aria-hidden="true">

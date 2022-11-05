@@ -17,7 +17,8 @@ $sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Passwo
 $result1 = mysqli_fetch_assoc($sql);
 
 if ($result1['Id_jabatan'] == "1" && $_SERVER['REQUEST_METHOD'] == "POST") :
-  $data = mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec WHERE tb_lowongan_user.id IS NOT NULL ORDER BY petugas.Kode_petugas, tb_kecamatan.id, lowongan.id");
+  $data = mysqli_query($conn, "SELECT * FROM petugas LEFT JOIN tb_lowongan_user ON tb_lowongan_user.id_petugas=petugas.Kode_petugas LEFT JOIN lowongan ON lowongan.id=tb_lowongan_user.id_lowongan LEFT JOIN tb_kecamatan ON tb_kecamatan.id=tb_lowongan_user.id_kec LEFT JOIN auth ON petugas.Kode_petugas=auth.Kode_petugas WHERE tb_lowongan_user.id IS NOT NULL AND auth.deleted=0 ORDER BY petugas.Kode_petugas, tb_kecamatan.id, lowongan.id");
+
 
 
 

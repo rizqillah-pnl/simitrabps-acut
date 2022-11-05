@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
 
     $_SESSION['username'] = $user;
 
-    $sql = mysqli_query($conn, "SELECT * FROM auth WHERE Username='$user' OR Email='$user'");
+    $sql = mysqli_query($conn, "SELECT * FROM auth WHERE deleted=0 AND (Username='$user' OR Email='$user')");
     $result = mysqli_fetch_assoc($sql);
 
     $kode_petugas = $result['Kode_petugas'];
@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     // echo $now;
     //MD5 Method
     if (md5($pass) == $result['Password']) {
-        $insert = mysqli_query($conn, "UPDATE auth SET  Last_login='$now' WHERE Kode_petugas='$kode_petugas'");
+        $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode_petugas'");
         $_SESSION['id'] = $result['Kode_petugas'];
         $_SESSION['password'] = $result['Password'];
         $_SESSION['status'] = "login";

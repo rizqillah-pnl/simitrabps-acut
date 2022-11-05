@@ -12,20 +12,20 @@ date_default_timezone_set('Asia/Jakarta');
 $now = date("Y-m-d H-i-s");
 $insert = mysqli_query($conn, "UPDATE auth SET Last_login='$now' WHERE Kode_petugas='$kode'");
 
-$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' ORDER BY c.Id_jabatan");
+$sql = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND a.Kode_petugas='$kode' AND a.deleted=0 ORDER BY c.Id_jabatan");
 
 $result1 = mysqli_fetch_assoc($sql);
 
 if ($result1['Id_jabatan'] == "1") :
 
     $jumlahDataPerHalaman = 10;
-    $jumData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) FROM auth"));
+    $jumData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) FROM auth WHERE deleted=0"));
     $jumlahHalaman = ceil($jumData['COUNT(*)'] / $jumlahDataPerHalaman);
     $halamanAktif = (isset($_GET['page'])) ? $_GET['page'] : 1;
     $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
 
 
-    $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan ORDER BY b.Jabatan, a.Last_login DESC LIMIT $awalData, $jumlahDataPerHalaman");
+    $data = mysqli_query($conn, "SELECT a.Kode_petugas, a.Username, a.Email, a.Password, a.Old_password, a.Last_login, a.Created_at, a.Updated_at, b.Nama, b.NIK, b.Alamat, b.Foto, b.NoHP, b.Tanggal_lahir, b.Tempat_lahir, c.Jabatan, c.Id_jabatan FROM auth a, petugas b, jabatan c WHERE a.Kode_petugas=b.Kode_petugas AND b.Jabatan=c.Id_jabatan AND deleted=0 ORDER BY b.Jabatan, a.Last_login DESC LIMIT $awalData, $jumlahDataPerHalaman");
 
 
 
@@ -42,6 +42,68 @@ if ($result1['Id_jabatan'] == "1") :
     <body>
         <?php $url = "../"; ?>
         <?php include 'header.php'; ?>
+
+        <?php
+        if (isset($_SESSION['pesan'])) :
+            $pesan =  $_SESSION['pesan'];
+        ?>
+            <?php
+            if ($pesan == "gagal") :
+            ?>
+                <script>
+                    swal("Gagal!", "Username Telah Digunakan!", "warning");
+                </script>
+            <?php
+            elseif ($pesan == "error") :
+            ?>
+                <script>
+                    swal("Gagal!", "Menambahkan Akun Baru!", "warning");
+                </script>
+            <?php
+            elseif ($pesan == "berhasil") :
+            ?>
+                <script>
+                    swal("Berhasil", "Menambahkan Akun Baru!", "success");
+                </script>
+            <?php elseif ($pesan == "1") :
+            ?>
+                <script>
+                    swal("Gagal!", "Akun Sedang Melakukan Pendataan Bangunan!", "warning");
+                </script>
+            <?php
+            elseif ($pesan == "ok") :
+            ?>
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <div>
+                        <?php if (isset($_SESSION['message'])) : ?>
+                            <ul>
+                                <?php foreach ($_SESSION['message'] as $pesan) : ?>
+                                    <li><?= $pesan; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            <?php else : ?>
+                <script>
+                    swal("Gagal!", "Menghapus Akun!", "warning");
+                </script>
+            <?php endif; ?>
+        <?php endif; ?>
+
+
+        <?php if (isset($_SESSION['delete-account'])) : ?>
+
+            <script>
+                let nama = "<?= $_SESSION['delete-account']; ?>";
+                swal("Berhasil", "Menghapus Akun " + nama + "!", "success");
+            </script>
+        <?php endif;
+        unset($_SESSION['delete-account']);
+        unset($_SESSION['pesan']);
+        unset($_SESSION['message']);
+        ?>
 
         <!-- ============================================================== -->
         <!-- ============================================================== -->
@@ -122,68 +184,6 @@ if ($result1['Id_jabatan'] == "1") :
                     </div>
                 </div>
             </div>
-
-            <?php
-            if (isset($_SESSION['pesan'])) :
-                $pesan =  $_SESSION['pesan'];
-            ?>
-                <?php
-                if ($pesan == "gagal") :
-                ?>
-                    <script>
-                        swal("Gagal!", "Username Telah Digunakan!", "warning");
-                    </script>
-                <?php
-                elseif ($pesan == "error") :
-                ?>
-                    <script>
-                        swal("Gagal!", "Menambahkan Akun Baru!", "warning");
-                    </script>
-                <?php
-                elseif ($pesan == "berhasil") :
-                ?>
-                    <script>
-                        swal("Berhasil", "Menambahkan Akun Baru!", "success");
-                    </script>
-                <?php elseif ($pesan == "1") :
-                ?>
-                    <script>
-                        swal("Gagal!", "Akun Sedang Melakukan Pendataan Bangunan!", "warning");
-                    </script>
-                <?php
-                elseif ($pesan == "ok") :
-                ?>
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <div>
-                            <?php if (isset($_SESSION['message'])) : ?>
-                                <ul>
-                                    <?php foreach ($_SESSION['message'] as $pesan) : ?>
-                                        <li><?= $pesan; ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                <?php else : ?>
-                    <script>
-                        swal("Gagal!", "Menghapus Akun!", "warning");
-                    </script>
-                <?php endif; ?>
-            <?php endif; ?>
-
-
-            <?php if (isset($_SESSION['delete-account'])) : ?>
-
-                <script>
-                    let nama = "<?= $_SESSION['delete-account']; ?>";
-                    swal("Berhasil", "Menghapus Akun " + nama + "!", "success");
-                </script>
-            <?php endif;
-            unset($_SESSION['delete-account']);
-            unset($_SESSION['pesan']);
-            unset($_SESSION['message']);
-            ?>
 
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
